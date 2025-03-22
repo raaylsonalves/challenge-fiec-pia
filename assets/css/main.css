@@ -1,0 +1,11 @@
+body{
+  background-color: #E0E0E0;
+}
+.flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+p{
+  margin: 0;
+}
