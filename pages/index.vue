@@ -2,18 +2,63 @@
 import useGetMetadataQuery from '../hooks/GetMetadata/useGetMetadataQuery'
 import useGetGeographLevel from '../hooks/GetGeographLevel/useGetGeographLevelQuery'
 import useGetPeriodsListQuery from '../hooks/GetPeriodsList/useGetPeriodsListQuery'
+import Select from '~/components/select.vue';
+import useAggregateListQuery from '~/hooks/GetAggregateList/useAggregateListQuery';
 
 
 export default {
+  components: {
+    Select
+  },
   setup() {
-    const {data: metadata} = useGetMetadataQuery();
-    const {data: geographLevel} = useGetGeographLevel('N1');
-    const {data: periods} = useGetPeriodsListQuery();
+    const refsMap = {
+      variables: shallowRef([]),
+      periods: shallowRef([]),
+      classifications: shallowRef([]),
+      geographLevels: shallowRef([]),
+    }
 
-    return {metadata, geographLevel, periods};
+    // console.log(refsMap.variables);
+    // console.log(refsMap.periods);
+    // console.log(refsMap.classifications);
+
+    // const aggregates = shallowRef([]);
+
+    const { data: metadata, isLoading: isLoadingMetada } = useGetMetadataQuery();
+    const { data: geographLevel, isLoading: isLoadingGeographLevel } = useGetGeographLevel('N1');
+    const { data: periods, isLoading: isLoadingPeriods } = useGetPeriodsListQuery();
+    const { data: aggregates, isLoading: isLoadingAggregates} = 
+      useAggregateListQuery({
+        variables: refsMap.variables.value.join("|"),
+        periods: refsMap.periods.value.join("|"),
+        classifications: refsMap.classifications.value.join(",")
+      });
+
+    const updateSelected = (key, values) => {
+      if (refsMap[key]) {
+        refsMap[key].value = values;
+      } else {
+        console.warn(`Chave "${key}" não encontrada no mapa de referências.`)
+      }
+    }
+
+    return {
+      refsMap,
+      updateSelected,
+      metadata,
+      geographLevel,
+      periods,
+      isLoadingGeographLevel,
+      isLoadingMetada,
+      isLoadingPeriods,
+      aggregates
+    };
   },
 };
 
+// watch(refsMap, (value) => {
+//   console.log(value);
+// })
 
 </script>
 
@@ -31,18 +76,26 @@ export default {
     <Panel title="Filtros">
       <v-row>
         <v-col cols="6">
-          <Select label="Variavéis" :data="metadata.variaveis" />
+          <v-skeleton-loader :loading="isLoadingMetada" type="list-item-two-line">
+            <Select v-bind:model-value="refsMap.variables" @update:model-value="(values) => updateSelected('variables', values)" label="Variavéis" :data="metadata.variaveis" />
+          </v-skeleton-loader>
         </v-col>
         <v-col cols="6">
-          <Select label="Períodos" :data="periods" />
+          <v-skeleton-loader :loading="isLoadingPeriods" type="list-item-two-line">
+            <Select v-bind:model-value="refsMap.periods" @update:model-value="(values) => updateSelected('periods', values)" label="Períodos" :data="periods" />
+          </v-skeleton-loader>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <Select :label="metadata.classificacoes[0].nome" :data="metadata.classificacoes[0].categorias" />
+          <v-skeleton-loader :loading="isLoadingMetada" type="list-item-two-line">
+            <Select v-bind:model-value="refsMap.classifications" @update:model-value="(values) => updateSelected('classifications', values)" :label="metadata.classificacoes[0].nome" :data="metadata.classificacoes[0].categorias" />
+          </v-skeleton-loader>
         </v-col>
         <v-col cols="6">
-          <Select label="Nível geográfico" :data="geographLevel" />
+          <v-skeleton-loader :loading="isLoadingGeographLevel" type="list-item-two-line">
+            <Select v-bind:model-value="refsMap.geographLevels" @update:model-value="(values) => updateSelected('geographLevels', values)" label="Nível geográfico" :data="geographLevel" />
+          </v-skeleton-loader>
         </v-col>
       </v-row>
     </Panel>
@@ -79,6 +132,7 @@ export default {
         <v-btn icon="mdi-chart-bar"></v-btn>
       </v-btn-group>
     </v-row>
+    <p>{{ aggregates }}</p>
     <div class="notas">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.
     </div>
@@ -190,11 +244,16 @@ export default {
 }
 
 .btn-group-below-card {
-  margin-top: 0; /* Remove margens extras */
-  margin-bottom: 0; /* Opcional, dependendo do design */
-  display: block; /* Garante que ocupe toda a largura, se necessário */
+  margin-top: 0;
+  /* Remove margens extras */
+  margin-bottom: 0;
+  /* Opcional, dependendo do design */
+  display: block;
+  /* Garante que ocupe toda a largura, se necessário */
 }
-.card + .btn-group-below-card {
-  margin-top: 16px; /* Ajusta o espaçamento exato entre o card e o botão */
+
+.card+.btn-group-below-card {
+  margin-top: 16px;
+  /* Ajusta o espaçamento exato entre o card e o botão */
 }
 </style>

@@ -42,7 +42,7 @@ type Periodicity = {
 }
 
 type Variables = {
-    id: number;
+    id: string;
     nome: string;
     sumarizacao: Sumarization[];
     unidade: string;
