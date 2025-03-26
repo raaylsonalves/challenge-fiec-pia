@@ -4,25 +4,15 @@ import useGetGeographLevel from '../hooks/GetGeographLevel/useGetGeographLevelQu
 import useGetPeriodsListQuery from '../hooks/GetPeriodsList/useGetPeriodsListQuery';
 import useAggregateListQuery from '~/hooks/GetAggregateList/useAggregateListQuery';
 import { watch } from 'vue';
-import Chart from '~/components/chart.vue';
 
 export default {
-  components: {
-    Chart
-  },
   setup() {
+
     const refsMap = {
       variables: shallowRef([]),
       periods: shallowRef([]),
       classifications: shallowRef([]),
       geographLevels: shallowRef([]),
-    };
-
-    const selectCardType = ref(true);
-    const currentType = ref("Bar");
-
-    const changeType = (type) => {
-      currentType.value = type;
     };
 
     const hasItems = computed(() => {
@@ -82,27 +72,6 @@ export default {
       }
     };
 
-    const formatedData = computed(() => {
-      return useAggregateList?.data?.value?.flatMap((item) => formatData(useAggregateList?.data?.value, item?.id));
-    })
-
-    const groupByVariable = (data) => {
-      return data.reduce((acc, item) => {
-        if (!acc[item.variavel]) {
-          acc[item.variavel] = [];
-        }
-        acc[item.variavel].push(item);
-        return acc;
-      }, {});
-    };
-
-    const groupedData = computed(() => {
-      if (!formatedData.value) return {};
-
-      // Agrupar os dados por variável
-      return groupByVariable(formatedData.value);
-    });
-
     watch(
       () => ({
         variables: refsMap.variables.value,
@@ -131,14 +100,7 @@ export default {
       isLoadingMetada,
       isLoadingPeriods,
       useAggregateList,
-      isLoadingAggregateList: useAggregateList?.isLoading?.value,
-      filters,
-      formatedData,
-      groupedData,
-      hasItems,
-      selectCardType,
-      changeType,
-      currentType
+      filters
     };
   },
 };
@@ -146,62 +108,18 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <div class="filter-bar">
-      <div class="cardFilter">
-        <h2>Filtros</h2>
-        <v-row>
-          <v-col cols="6" v-for="filter in filters" :key="filter.key">
-            <v-skeleton-loader :loading="filter.loading" type="list-item-two-line">
-              <Select v-bind:model-value="filter.value" :label="filter.label" :data="filter.data"
-                @update:model-value="(values) => updateSelected(filter.key, values)" />
-            </v-skeleton-loader>
-          </v-col>
-        </v-row>
-      </div>
-    </div>
-
-    <div class="card" v-if="hasItems">
-      <h2>Visualizar Dados</h2>
-      <v-btn-group variant="text" divided>
-
-        <v-btn icon="mdi-chart-bar" v-if="!selectCardType" @click="changeType('Bar')"></v-btn>
-        <v-btn icon="mdi-chart-line" v-if="!selectCardType" @click="changeType('Line')"></v-btn>
-        <v-btn icon="mdi-chart-pie" v-if="!selectCardType" @click="changeType('Pie')"></v-btn>
-      </v-btn-group>
-      <CardSelector @click="selectCardType = !selectCardType" />
-
-      <div class="card-body">
-        <Table v-if="selectCardType" v-for="(data, variable) in groupedData" :title="variable" :data="data" />
-        <Chart :chart-type="currentType" v-if="!selectCardType" v-for="data in groupedData" :chart-data="data" />
-      </div>
-    </div>
-
-  </v-container>
+  <Panel title="Filtros">
+    <v-row>
+      <v-col cols="6" v-for="filter in filters" :key="filter.key">
+        <v-skeleton-loader :loading="filter.loading" type="list-item-two-line">
+          <Select
+            v-bind:model-value="filter.value"
+            :label="filter.label"
+            :data="filter.data"
+            @update:model-value="(values) => updateSelected(filter.key, values)"
+          />
+        </v-skeleton-loader>
+      </v-col>
+    </v-row>
+  </Panel>
 </template>
-
-<style>
-.filter-bar {
-  display: flex;
-  justify-content: space-between;
-}
-
-.card {
-  width: 100%;
-  border-radius: 10px;
-  margin: 0 auto;
-  background-color: white;
-  box-shadow: 0px 5px 30px -10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  position: relative;
-}
-
-.cardFilter {
-  box-shadow: 0px 5px 30px -10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 10px;
-  padding: 20px;
-  transition: height 0.5s ease-in-out;
-}
-</style>

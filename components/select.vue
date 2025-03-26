@@ -58,7 +58,8 @@ export default {
 
 <template>
   <v-select v-model="selectedValues" @update:model-value="(value) => $emit('update:model-value', value)" :items="data"
-    item-value="id" item-title="nome" :label="label" variant="solo-filled" multiple>
+    item-value="id" item-title="nome" :label="label" clearable :menu-props="{ scrim: true, scrollStrategy: 'close' }"
+    variant="solo-filled" multiple>
     <template v-slot:selection="{ item, index }">
       <v-chip v-if="index < 2" :text="item.title" class="chip"></v-chip>
       <span v-if="index === 2" class="chip-extra">
@@ -79,19 +80,8 @@ export default {
 </template>
 
 <style>
-.chip {
-  background-color: #e0e0e0;
-  margin: 0 4px 4px 0;
-  padding: 4px 8px;
-  border-radius: 16px;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.chip-extra {
-  color: #757575;
-  font-size: 12px;
-  font-weight: bold;
-  align-self: center;
+::v-deep(.v-field) {
+   border-radius: 10px;
+   box-shadow: 0px 5px 10px -5px rgba(0, 0, 0, 0.2);
 }
 </style>

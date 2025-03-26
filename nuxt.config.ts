@@ -1,36 +1,35 @@
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
-  //...
+  ssr: true,
+  css: ["~/assets/css/main.css"],
   build: {
-    transpile: ['vuetify'],
+    transpile: ["vuetify"],
   },
-  modules: [
-    (_options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', (config) => {
-        // @ts-expect-error
-        config.plugins.push(vuetify({ autoImport: true }))
-      })
-    },
-    "@hebilicious/vue-query-nuxt"
-  ],
+
+  modules: ["@hebilicious/vue-query-nuxt"],
+
   vueQuery: {
     stateKey: "vue-query-nuxt",
     queryClientOptions: {
       defaultOptions: {
         queries: {
-          staleTime: 5000
-        }
-      }
-    }
+          staleTime: 5000,
+        },
+      },
+    },
   },
+
   vite: {
+    ssr: {
+      noExternal: ['vuetify'],
+    },
     vue: {
       template: {
         transformAssetUrls,
       },
     },
+    plugins: [vuetify({ autoImport: true })],
   },
-
-  compatibilityDate: '2025-03-21',
-})
+  compatibilityDate: "2025-03-25",
+});

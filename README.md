@@ -1,75 +1,46 @@
-# Nuxt Minimal Starter
+# PIA Empresa - Análise de Dados
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+### **Objetivo**
 
-## Setup
+O objetivo deste projeto é **desenvolver uma aplicação frontend** para **exibição e análise de dados** da **Pesquisa Industrial Anual - Empresa (PIA Empresa)** do IBGE. A aplicação consome a **API SIDRA**, fornecendo uma interface amigável para exibir os dados em **tabelas dinâmicas** e **gráficos interativos**.
 
-Make sure to install dependencies:
+---
 
-```bash
-# npm
-npm install
+## **Tecnologias Utilizadas**
 
-# pnpm
-pnpm install
+- **Vue.js 3**: Framework JavaScript progressivo para construção da interface.
+- **Nuxt 3**: Framework avançado que utiliza SSR (Server-Side Rendering) e SPA (Single Page Application).
+- **Vuetify**: Biblioteca de componentes UI baseados em Material Design.
+- **Docker**: Para containerizar e simplificar o ambiente de execução.
+- **Node.js (v18 ou superior)**: Ambiente de execução JavaScript para desenvolvimento.
 
-# yarn
-yarn install
+---
 
-# bun
-bun install
-```
+## **Funcionalidades**
 
-## Development Server
+1. **Consumo de dados via API SIDRA**: Integração direta para exibição dos dados disponíveis.
+2. **Tabelas dinâmicas**: Exibição de dados de forma organizada e fácil de interpretar.
+3. **Gráficos interativos**: Visualização dinâmica dos dados para facilitar a análise.
+4. **Interface Responsiva**: Adaptada para diferentes tamanhos de tela, utilizando Vuetify.
+5. **Containerização**: Configuração containerizada com Docker para facilitar o deploy.
 
-Start the development server on `http://localhost:3000`:
+---
 
-```bash
-# npm
-npm run dev
+## **Como Rodar o Projeto**
 
-# pnpm
-pnpm dev
+### Pré-requisitos
 
-# yarn
-yarn dev
+Certifique-se de que você possui os seguintes itens instalados:
 
-# bun
-bun run dev
-```
+- **Docker** (Recomenda-se a versão mais recente)
+- **Docker Compose** (Recomenda-se a versão mais recente)
 
-## Production
+---
 
-Build the application for production:
+### Passos para Configuração
 
-```bash
-# npm
-npm run build
+1. **Clone o repositório**
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio```

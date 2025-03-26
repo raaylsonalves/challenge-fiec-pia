@@ -1,27 +1,34 @@
 import type { Aggregate } from "./type"
 
 type Props = {
-    variables: string;
-    periods: string;
-    classifications: string;
-    location?: 'N1' | string;
-    locations?: 'all' | string;
-    classification?: '12762' | string;
+    variables: any;
+    periods: any;
+    classifications: any;
+    location?: string;
+    geographLevels?: any;
+    classification?: string;
+    hasItems: boolean;
 }
 
 export default (
     {
         variables,
         periods,
-        location,
-        locations,
-        classification,
-        classifications
+        classifications,
+        location = 'N1',
+        geographLevels = 'all',
+        classification = '12762',
+        hasItems = false
     }: Props) => {
-    return useQuery({
+    const { data, refetch, isLoading } = useQuery({
         queryKey: ["aggregate", variables, periods, classifications],
-        queryFn: async () => await axios.get<Aggregate[]>(`/1842/periodos/${periods}/variaveis/${variables}?localidades=${location}[${locations}]&classificacao=${classification}[${classifications}]`),
+        queryFn: async () => {
+            const url = `/1842/periodos/${periods.value.join("|")}/variaveis/${variables.value.join("|")}?localidades=${location}[${geographLevels?.value?.join(",") ?? geographLevels}]&classificacao=${classification}[${classifications.value.join(",")}]`
+            return await axios.get<Aggregate[]>(url)
+        },
         select: (response) => response.data,
-        enabled: [variables, periods, classifications].filter(Boolean).length === 3
+        enabled: hasItems
     })
+
+    return { data, refetch, isLoading }
 }
