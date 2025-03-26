@@ -36,7 +36,7 @@ export default {
     components: { Bar, Line, Pie },
     props: {
         chartData: {
-            type: Array, // Recebe uma matriz de dados do pai
+            type: Array,
             required: true,
             default: () => []
         },
@@ -48,24 +48,22 @@ export default {
     },
     computed: {
         chartComponent() {
-            // Retorna o componente correto com base no tipo de gráfico
             if (this.chartType === "Bar") return Bar;
             if (this.chartType === "Line") return Line;
             if (this.chartType === "Pie") return Pie;
-            return Bar; // Padrão para gráfico de barra
+            return Bar;
         },
         processedChartData() {
             const labels = this.chartData.map((item) => item.ano);
             const data = this.chartData.map((item) => parseFloat(item.valorChart));
-            // console.log(data)
             const variableLabel = this.chartData[0]?.variavel || "Dados";
 
             return {
-                labels, // Define os rótulos
+                labels,
                 datasets: [
                     {
                         label: variableLabel,
-                        data, // Associa os valores
+                        data,
                         backgroundColor: "rgba(75, 192, 192, 0.6)",
                         borderColor: "rgba(75, 192, 192, 1)",
                         borderWidth: 1,
@@ -80,12 +78,8 @@ export default {
 <style scoped>
 .chart-container {
     display: flex;
-    /* Habilita o Flexbox */
     justify-content: center;
-    /* Centraliza horizontalmente */
     align-items: center;
-    /* Centraliza verticalmente */
     height: 50vh;
-    /* Define altura completa da viewport */
 }
 </style>

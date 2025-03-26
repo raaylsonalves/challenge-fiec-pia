@@ -99,7 +99,6 @@ export default {
     const groupedData = computed(() => {
       if (!formatedData.value) return {};
 
-      // Agrupar os dados por variável
       return groupByVariable(formatedData.value);
     });
 

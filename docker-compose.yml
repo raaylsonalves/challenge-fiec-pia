@@ -4,8 +4,8 @@ services:
   nuxt-app:
     build: .
     ports:
-      - "8080:3000" # Mapeia a porta 8080 do host para a porta 3000 do Nuxt
+      - "8080:3000"
     environment:
-      NODE_ENV: development # Define o ambiente como produção
-      VITE_API_BASE: https://servicodados.ibge.gov.br/api/v3/agregados # Pode sobrescrever ou adicionar variáveis
+      NODE_ENV: development
+      VITE_API_BASE: https://servicodados.ibge.gov.br/api/v3/agregados
     container_name: nuxt_server
