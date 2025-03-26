@@ -12,7 +12,7 @@ O objetivo deste projeto é **desenvolver uma aplicação frontend** para **exib
 - **Nuxt 3**: Framework avançado que utiliza SSR (Server-Side Rendering) e SPA (Single Page Application).
 - **Vuetify**: Biblioteca de componentes UI baseados em Material Design.
 - **Docker**: Para containerizar e simplificar o ambiente de execução.
-- **Node.js (v18 ou superior)**: Ambiente de execução JavaScript para desenvolvimento.
+- **Node.js (v20 ou superior)**: Ambiente de execução JavaScript para desenvolvimento.
 
 ---
 
