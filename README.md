@@ -43,8 +43,8 @@ Certifique-se de que você possui os seguintes itens instalados:
 
    ```bash
    git clone https://github.com/raaylsonalves/challenge-fiec-pia.git
+   crie um .env apartir do example.env
    cd challenge-fiec-pia
-   echo 
    yarn 
    yarn dev
 
