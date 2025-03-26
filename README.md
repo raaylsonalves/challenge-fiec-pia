@@ -33,7 +33,7 @@ O objetivo deste projeto é **desenvolver uma aplicação frontend** para **exib
 Certifique-se de que você possui os seguintes itens instalados:
 
 - **Docker** (Recomenda-se a versão mais recente)
-- **Docker Compose** (Recomenda-se a versão mais recente)
+- **Node** (Recomenda-se a versão mais recente)
 
 ---
 
@@ -42,5 +42,11 @@ Certifique-se de que você possui os seguintes itens instalados:
 1. **Clone o repositório**
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio```
+   git clone https://github.com/raaylsonalves/challenge-fiec-pia.git
+   cd challenge-fiec-pia
+   yarn 
+   yarn dev
+
+   ou
+
+   docker-compose up --build
